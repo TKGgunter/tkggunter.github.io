@@ -26,7 +26,7 @@ So why not remove ROOT entirely. Why continue to have the root dependency then I
 Well there is no good answer. This collection of blog posts detail the design and implementation of a dataformat the I have replaced ROOT with.
 I hope this blog can be educational and demystify one of the basic technologies we use on a daily bases.
  
-Section I: What makes a file format
+<b>Section I What makes a file format :</b> 
 
 Constructing a custom file format isn't all that difficult.
 I find that the most important concept is to know that your data is and how you are going to interact with it.
@@ -139,7 +139,7 @@ Offset describes when the header ends and when the contiguous data blocks begin.
 Number of features and number of events are as the names suggest. It should be noted that by having these be 32 bit integers the maximum number of features and events is 2 billion, which we probably will not hit in features, but may very well hit in number of events.  For now I'm going to say that hitting this limit is very unlikely. 
  
  
-Section II. Data :
+<b>Section II. Data :</b>
 Now it's time for some data.
 Specifically the list of features we're saving, their names, associated type info among other things.
 Lets start with strings.
