@@ -42,22 +42,22 @@ These features aren't necessarily known a priori and the list often grow during 
 
 <table>
 	<tr> 
-		<th>feature1
-		<th>feature2
-		<th>...
-		<th>featureN
+		<th>feature1 </th>
+		<th>feature2 </th>
+		<th>... </th>
+		<th>featureN </th>
 	</tr> 
 	<tr> 
-		<td> 123.4
-		<td> 1
-		<td>...
-		<td> "type1"
+		<td> 123.4 </th>
+		<td> 1  </th>
+		<td>...  </th> 
+		<td> "type1" </th>
 	</tr> 
 	<tr> 
-		<td> 13.4
-		<td> 12
-		<td>...
-		<td> "type3"
+		<td> 13.4 </th>
+		<td> 12 </th>
+		<td>... </th>
+		<td> "type3" </th>
 	</tr> 
 </table>
 
@@ -164,10 +164,10 @@ You can think about it as rows of a csv.
 For example lets say you have the following dataset.
 
 | Feature1 | Feature2 | Feature3|
----------------------------------
-1.0        |  1231    |  "alpha"
-34.3	   |   11     |  "alpha"
-12.3       |   231    |  "beta"
+|----------|----------|---------|
+|1.0       |  1231    |  "alpha"|
+|34.3	   |   11     |  "alpha"|
+|12.3      |   231    |  "beta" |
 
 
 Data would be stored 1.0, 1231, "alpha", 34.3, 11, "alpha"...
