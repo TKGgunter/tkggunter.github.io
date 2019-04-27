@@ -163,7 +163,7 @@ ROOT is stores data in a event model.
 You can think about it as rows of a csv.
 For example lets say you have the following dataset.
 
-| Feature1 | Feature2 | Feature3
+| Feature1 | Feature2 | Feature3|
 ---------------------------------
 1.0        |  1231    |  "alpha"
 34.3	   |   11     |  "alpha"
