@@ -100,29 +100,29 @@ I'm thinking something like this:
 
 <table> 
 	<tr>
-		<tb> Signature
-		<tb> 24 bit
-		<tb> "T", "D", "F"
+		<td> Signature </td>
+		<td> 24 bit </td>
+		<td> "T", "D", "F" </td>
 	</tr>
 	<tr>
-		<tb> Compression flag
-		<tb> 8 bit
-		<tb> int
+		<td> Compression flag </td>
+		<td> 8 bit </td>
+		<td> int </td>
 	</tr>
 	<tr>
-		<tb> Offset
-		<tb> 32 bit
-		<tb> int
+		<td> Offset </td>
+		<td> 32 bit </td>
+		<td> int </td>
 	</tr>
 	<tr>
-		<tb> number of features
-		<tb> 32 bit
-		<tb> int
+		<td> number of features </td>
+		<td> 32 bit </td>
+		<td> int </td>
 	</tr>
 	<tr>
-		<tb> number of events
-		<tb> 32 bit
-		<tb> int
+		<td> number of events </td>
+		<td> 32 bit </td>
+		<td> int </td>
 	</tr>
 </table> 
 
@@ -162,6 +162,7 @@ This additional information has a bit todo with the overall structure of our fil
 ROOT is stores data in a event model. 
 You can think about it as rows of a csv.
 For example lets say you have the following dataset.
+
 
 | Feature1 | Feature2 | Feature3|
 |----------|----------|---------|
