@@ -48,16 +48,16 @@ These features aren't necessarily known a priori and the list often grow during 
 		<th>featureN </th>
 	</tr> 
 	<tr> 
-		<td> 123.4 </th>
-		<td> 1  </th>
-		<td>...  </th> 
-		<td> "type1" </th>
+		<td> 123.4 </td>
+		<td> 1  </td>
+		<td>...  </td> 
+		<td> "type1" </td>
 	</tr> 
 	<tr> 
-		<td> 13.4 </th>
-		<td> 12 </th>
-		<td>... </th>
-		<td> "type3" </th>
+		<td> 13.4 </td>
+		<td> 12 </td>
+		<td>... </td>
+		<td> "type3" </td>
 	</tr> 
 </table>
 
