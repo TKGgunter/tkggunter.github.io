@@ -6,10 +6,10 @@
     <!-- Note the usage of `type=module` here as this is an ES6 module -->
     <script type="module">
 
-      import init, { render } from './pkg/paint.js';
+      import init, { render } from './paint.js';
       async function run() {
  
-        let wasm = await init('./pkg/paint_bg.wasm');
+        let wasm = await init('./paint_bg.wasm');
         const width = 600;
         const height = 600;
 
