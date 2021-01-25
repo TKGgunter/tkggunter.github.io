@@ -1,20 +1,19 @@
-
 <html>
   <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
   </head>
   <body>
     <!-- Note the usage of `type=module` here as this is an ES6 module -->
-    
     <script type="module">
-      //import init, { testing } from './pkg/paint.js';
+
+      import init, { render } from './pkg/paint.js';
       async function run() {
+ 
         let wasm = await init('./pkg/paint_bg.wasm');
         const width = 600;
         const height = 600;
 
         const canvas = document.getElementById("canvas");
-        //const canvas = document.getElementById("demo-canvas");
         canvas.width = width;
         canvas.height = height;
 
@@ -27,34 +26,19 @@
             ),
             width,
         );
-testing();
 				const ctx = canvas.getContext("2d");
         const render_loop = () => {
-//const t0 = performance.now();
-//          render();
-//const t1 = performance.now();
-//console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
+          render();
 
           ctx.putImageData(image, 0, 0);
           requestAnimationFrame(render_loop);
         };
       	render_loop();
 
-//        const render_l = () => {
-//            render();
-//            ctx.putImageData(image, 0, 0);
-//        };
-//        let i = 0;
-//        while ( i < 110 ) {
-//          i+=1;
-//          requestAnimationFrame(render_l);
-//        }
 
-        // And afterwards we can use all the functionality defined in wasm.
       }
 			run();
     </script>
-    
     <canvas id="canvas"></canvas>
   </body>
 </html>
