@@ -46,30 +46,50 @@
 
         <div class="content container">
             
-                <div class="posts">
-                    
-                      <div class="post">
-                        <h1 class="post-title">
-                          <a href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;uprootingi&#x2F;">
-                            Uprooting ROOT Part I
-                          </a>
-                        </h1>
+<div class="post">
+  <h1 class="post-title">Testing a post with WASM</h1>
+  <span class="post-date">2021-02-24</span>
+  <p>This is my first blog post.</p>
+<script type="module">
 
-                        <span class="post-date">2019-04-27</span>
-                      </div>
-                    
-                      <div class="post">
-                        <h1 class="post-title">
-                          <a href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;first&#x2F;">
-                            Testing a post with WASM
-                          </a>
-                        </h1>
+  import init, { render } from '../paint.js';
+  async function run() {
 
-                        <span class="post-date">2021-02-24</span>
-                      </div>
-                    
-                </div>
-            
+    let wasm = await init('../paint_bg.wasm');
+    const width = 600;
+    const height = 600;
+
+    const canvas = document.getElementById("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const buffer_address = wasm.BUFFER.value;
+    const image = new ImageData(
+        new Uint8ClampedArray(
+            wasm.memory.buffer,
+            buffer_address,
+            4 * width * height,
+        ),
+        width,
+    );
+    const ctx = canvas.getContext("2d");
+    const render_loop = () => {
+      render();
+
+      ctx.putImageData(image, 0, 0);
+      requestAnimationFrame(render_loop);
+    };
+    render_loop();
+
+
+  }
+  run();
+</script>
+<p><canvas id="canvas"></canvas></p>
+<p>Can you see this?</p>
+
+</div>
+
         </div>
 
     </body>
