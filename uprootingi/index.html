@@ -11,9 +11,9 @@
       <title>Thoth Gunter</title>
 
       <!-- CSS -->
-      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;print.css" media="print">
-      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;poole.css">
-      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;hyde.css">
+      <link rel="stylesheet" href="http:&#x2F;&#x2F;0.0.0.0:8000&#x2F;print.css" media="print">
+      <link rel="stylesheet" href="http:&#x2F;&#x2F;0.0.0.0:8000&#x2F;poole.css">
+      <link rel="stylesheet" href="http:&#x2F;&#x2F;0.0.0.0:8000&#x2F;hyde.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
       
@@ -28,9 +28,9 @@
                 <div class="container sidebar-sticky">
                     <div class="sidebar-about">
                         
-                            <a href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;"><h1>Thoth Gunter</h1></a>
+                            <a href="http:&#x2F;&#x2F;0.0.0.0:8000"><h1>Thoth Gunter</h1></a>
                             
-                            <p class="lead">programming, machine learns, physics</p>
+                            <p class="lead">programming, machine learning, physics</p>
                             
                         
                     </div>
@@ -48,12 +48,14 @@
 
         <div class="content container">
             
-<div class="post">
+<div class="post" id="post">
   <h1 class="post-title">Uprooting ROOT Part I</h1>
   <span class="post-date">2019-04-27</span>
-  <i>
-This post highlights work I did during my time as a graduate student. The project attempted to replace the data storage and quick histogram generation/viewing features of ROOT. The project was a success.  Simple Data Format (SDF) is a simple format with compression equally performant as ROOT, and the associated data viewer meet my personal needs.  That being said I decided not to use the format for the remainder of my thesis work.  At that point in time too much of my tool chain and analysis pipeline required ROOT, and fully switching to SDF would have been more costly than it was worth. However, I were to do work data analysis again I would look closely at the data, its uses and standard file formats and would seriously contemplate constructing my own set up if I would the standard tools lacking.  
+  <blockquote>
+<i>
+This post highlights work done during my graduate studies. The project attempted to replace the data storage and quick histogram generation/viewing features of ROOT. The project was a success.  This simple data format and the associated data viewer was able to replace ROOT, at least for my use case.  That being said I decided not to use the format for my thesis work.  At that point too much of my tool chain and analysis pipeline required ROOT, and fully switching would have been more costly than it was worth. However, if I were to do another data analysis I would seriously contemplate constructing a custom format.
 </i>
+</blockquote>
 <p>Root is THE underlying technology that backs many modern particle physics experiments.
 Self described as a modular scientific software framework, I take issue with this description, it 
 deals with everything from data visualization to statistical analysis and data storage.</p>
@@ -69,7 +71,7 @@ It should be noted that ROOT is under active development and the team has addres
 <p>So, why not remove ROOT entirely? Why continue to have this dependency when I only use it to read and store data.
 Well, I have no good answer other than it's there. This blog post, and perhaps others will detail the design and implementation of a dataformat I created to replaced ROOT.
 I hope this blog can be educational and demystify one of the basic technologies we use on a daily bases.</p>
-<p><b>Section I:  What makes a file format?</b> </p>
+<h2 id="section-i-what-makes-a-file-format">Section I:  What makes a file format?</h2>
 <p>Constructing a custom file format isn't all that difficult.
 It requires some general understanding of how computers work, your data and how you use that data.</p>
 <p>To begin lets discuss data, what's being stored.
@@ -111,16 +113,15 @@ For this format to be useful it must have a memory foot print comparable to ROOT
 <p>Now that we have an idea of the problem lets talk more about file formats.
 A file format is a kind of design document that defines the meaning of the bits within a file.
 The best way to learn about building &quot;document&quot; is by studying the spec. of an some other format like BMP or WAV.
-I will not doing an in depth review of these formats, but there is a terrific synopsis at https://gamedevelopment.tutsplus.com/tutorials/create-custom-binary-file-formats-for-your-games-data--gamedev-206.</p>
-<p>To begin file formats are not magical.  They are specification that assign meaning to a particular collection of bits and bytes.
-One can in fact look directly at a binary file with your standard editor like vim.
+I will not doing an in depth review of these formats, but there is a terrific synopsis at <a href="https://gamedevelopment.tutsplus.com/tutorials/create-custom-binary-file-formats-for-your-games-data--gamedev-206">link</a>.</p>
+<p>To begin file formats are not magic.  They are a specification that assigns meaning to a collection of bits and bytes.
+One can in fact look directly at a binary file, with a standard editor like vim, and often deduce the format through visual inspection.
 If we open a ROOT file you'll notice that the first four characters(bytes) decode to &quot;root&quot;.  Most files are like this.
 If you open an executable the first three characters are probably &quot;ELF&quot; and a bitmap is &quot;BM&quot;.
-These notations give the OS and programs a way to determine how the file should be decoded, what format they should assume the file is in.
+These notations give the operating system and programs a way to determine how the file should be decoded, what format they should assume the file is in.
 Continuing through the file we notice a ton of random characters, though occasionally there will be some human readable text.
 If you haven't done this already I would suggest going through a few binary files on your own time to get an intuition of how these files are constructed.</p>
-<p>Now that we are on the same page, with regards to what a file format is lets begin laying out a general header spec. </p>
-<p>We will use this header to prime programs as how to read the following data.
+<p>Now that we are on the same page, lets begin laying out a general header specification. 
 As stated previously the beginning bytes are reserved for indicating the file format.
 Like BMP and WAV files we'll begin the file with a format tag.
 Next I want communicate how our data is stored, the number of features stored, feature names, total number of events stored, etc.</p>
@@ -134,49 +135,58 @@ Next I want communicate how our data is stored, the number of features stored, f
 	<tr>
 		<td> Compression flag </td>
 		<td> 8 bit </td>
-		<td> int </td>
+		<td> integer </td>
 	</tr>
 	<tr>
 		<td> Offset </td>
 		<td> 32 bit </td>
-		<td> int </td>
+		<td> integer </td>
 	</tr>
 	<tr>
 		<td> number of features </td>
 		<td> 32 bit </td>
-		<td> int </td>
+		<td> integer </td>
 	</tr>
 	<tr>
 		<td> number of events </td>
 		<td> 32 bit </td>
-		<td> int </td>
+		<td> integer </td>
+	</tr>
+	<tr>
+		<td> feature names </td>
+		<td> ?? bit </td>
+		<td> string </td>
+	</tr>
+	<tr>
+		<td> feature type and size</td>
+		<td> 8 bit and 32 bit</td>
+		<td> integer and integer </td>
 	</tr>
 </table> 
 <p>Signature is our file format tag. I've chosen the characters &quot;T&quot;, &quot;D&quot;, &quot;F&quot;, for Thoth's data format. 
 Yup super original. When we eventually read these files we'll first check the first three bytes of the file to determine if we are reading the correct file format.
-At this point I should note that there are often formats that share the same signature, https://software.broadinstitute.org/software/igv/TDF for example. 
+At this point I should note that there are often formats that share the same signature, <a href="https://software.broadinstitute.org/software/igv/TDF">TDF</a> for example. 
 The last thing to note is the 24 bit allocated to this specification. Of course this is the because ASCII characters require 8 bits.</p>
-<p>Compression flag is as the name suggest. The value held here describes how that data is compressed.</p>
-<p>Offset describes when the header ends and when the contiguous data blocks begin.</p>
-<p>Number of features and number of events are as the names suggest. It should be noted that by having these be 32 bit integers the maximum number of features and events is 2 billion, which we probably will not hit in features, but may very well hit in number of events.  For now I'm going to say that hitting this limit is very unlikely. </p>
-<p><b>Section II. Data :</b>
-Now it's time for some data.
-Specifically the list of features we're saving, their names, associated type info among other things.
-Lets start with strings.</p>
-<p>Strings can be weird depending on the language your developing in.
-In C strings are an array of bytes that are terminated by a zero at the end of the array.
-Without this zero C will just read forever.
-This method is one of the most compact ways to store a string but its also the most error prone.
-Another way to store as string is a length and the array of characters.
+<p>Compression flag is as the name suggest. The value held here describes how that data is compressed.
+Offset describes when the header ends and when the contiguous data block begin.
+Number of features and number of events are as the names suggest. It should be noted that by having these be 32 bit integers the maximum number of features and events is 2 billion, which we probably will not hit in features, but may very well hit in number of events.  For now I'm going to say that hitting this limit is very unlikely. </p>
+<p>You may have noticed feature names have no bit size and is not a standard Clang data type. 
+In fact Strings can vary greatly depending on the language you develop in.
+In C strings are an array of bytes that are terminated by a trailing zero.
+Without this zero most C programs will assume that the string goes on forever.
+The trailing zero, method for structuring a string, is one of the most compact ways to store a string but its also the most error prone.
+Alternatively on could store string as the length of the string, number of characters in the string, followed an array of the characters.
 This is far less error prone but can be a fair bit larger, especially for short strings.
 I'm going to choose the less error prone route for this this task.
-This means feature names will be a 32bit int then a character array.</p>
+This means feature names will be a 32bit int then a character array. 
+I will be storing characters as 8 bit integers like out file signature.</p>
 <p>We also need to store type information.
 This is pretty easy we have only 3 types we are interested in storing, ints, floats and strings.
 There is a bit more information I'd like the store here.
 The total number of bytes used to store the data for that feature over all events.
 This additional information has a bit todo with the overall structure of our file which I'll explain now. </p>
-<p>ROOT is stores data in a event model. 
+<h2 id="section-ii-data">Section II. Data</h2>
+<p>ROOT stores data in a event model. 
 You can think about it as rows of a csv.
 For example lets say you have the following dataset.</p>
 <table><thead><tr><th>Feature1</th><th>Feature2</th><th>Feature3</th></tr></thead><tbody>
@@ -184,21 +194,21 @@ For example lets say you have the following dataset.</p>
 <tr><td>34.3</td><td>11</td><td>&quot;alpha&quot;</td></tr>
 <tr><td>12.3</td><td>231</td><td>&quot;beta&quot;</td></tr>
 </tbody></table>
-<p>Data would be stored 1.0, 1231, &quot;alpha&quot;, 34.3, 11, &quot;alpha&quot;...
-This type of structure is extremely helpful when dealing with detectors, or time ordered data.
-However my analysis and most HEP analysis are not like. 
-They are more interested in the distribution or shape of a feature over many events.
-For this it is better to store features in contiguous chunks so 1.0, 34.3, 12.3... for feature1 then 1231, 11, 231, for feature2... and so on and so forth.</p>
-<p>Lets review how our feature list might look.
-(feature name {string}, type{8 byte int}, buffer size{32 byte int}, data), ...</p>
-<p>This format spec rather exactly meets the description of what I need.
-The format allows for easy access to the number of events the file holds.
-It also allows for great are given great flexibility.</p>
-<p>The only things missing are the data.
-We're going to store the data in contiguous arrays....
-There's not much else to say.  One can think of it as a list of contiguous arrays where each array holds the data for a given feature.</p>
+<p>In root data would be stored 1.0, 1231, &quot;alpha&quot;, 34.3, 11, &quot;alpha&quot;...
+This type of structure is extremely helpful, and natural when dealing with detectors, or time ordered data.
+However most HEP analyses are not like. </p>
+<p>HEP analyses are more interested in distributions or the shape of the data, for a given feature over many events.
+Contiguous chunks of data, as in storing columns contiguously, is much more useful.
+This is because computers can load data from these contiguous chunks far quicker than it can mixed data.
+If you've ever worked in pyroot and gone between ROOT files and HDF files you'll experience this directly. 
+Loading ROOT files are at least 5-10x slower than HDF files. HDF files much like our format is column based.
+Write this data is simply writing the arrays to disk in the order we've listed the features in the header.</p>
 <p>That's all for now.
 Next time I'll cover implementation of a simple data viewer for linux. Thank you for your time.</p>
+<blockquote>
+<p>If you have any corrections please contact me through github and let me know. 
+I am not a ROOT engineer so I may have gotten some of the details wrong.</p>
+</blockquote>
 
 </div>
 

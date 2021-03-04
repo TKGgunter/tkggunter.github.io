@@ -11,9 +11,9 @@
       <title>Thoth Gunter</title>
 
       <!-- CSS -->
-      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;print.css" media="print">
-      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;poole.css">
-      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;hyde.css">
+      <link rel="stylesheet" href="http:&#x2F;&#x2F;0.0.0.0:8000&#x2F;print.css" media="print">
+      <link rel="stylesheet" href="http:&#x2F;&#x2F;0.0.0.0:8000&#x2F;poole.css">
+      <link rel="stylesheet" href="http:&#x2F;&#x2F;0.0.0.0:8000&#x2F;hyde.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
       
@@ -28,9 +28,9 @@
                 <div class="container sidebar-sticky">
                     <div class="sidebar-about">
                         
-                            <a href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;"><h1>Thoth Gunter</h1></a>
+                            <a href="http:&#x2F;&#x2F;0.0.0.0:8000"><h1>Thoth Gunter</h1></a>
                             
-                            <p class="lead">programming, machine learns, physics</p>
+                            <p class="lead">programming, machine learning, physics</p>
                             
                         
                     </div>
@@ -48,22 +48,27 @@
 
         <div class="content container">
             
-<div class="post">
+<div class="post" id="post">
   <h1 class="post-title">Testing a post with WASM</h1>
   <span class="post-date">2021-02-24</span>
-  <p>This is my first blog post.</p>
+  <p>Can you see this?
+This is an example from <a href="http://cliffle.com/blog/bare-metal-wasm/">here</a>.</p>
 <script type="module">
 
   import init, { render } from '../paint.js';
-  async function run() {
+  async function run(div_id) {
 
     let wasm = await init('../paint_bg.wasm');
     const width = 600;
     const height = 600;
 
     const canvas = document.getElementById("canvas");
+    const div = document.getElementById(div_id);
+
     canvas.width = width;
     canvas.height = height;
+
+    div.appendChild(canvas);
 
     const buffer_address = wasm.BUFFER.value;
     const image = new ImageData(
@@ -85,10 +90,9 @@
 
 
   }
-  run();
+  run("post");
 </script>
 <p><canvas id="canvas"></canvas></p>
-<p>Can you see this?</p>
 
 </div>
 
