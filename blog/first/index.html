@@ -30,6 +30,10 @@
     canvas.height = height;
 
     const buffer_address = wasm.BUFFER.value;
+    const ctx = canvas.getContext("2d");
+    const render_loop = () => {
+      render();
+
     const image = new ImageData(
         new Uint8ClampedArray(
             wasm.memory.buffer,
@@ -38,10 +42,6 @@
         ),
         width,
     );
-    const ctx = canvas.getContext("2d");
-    const render_loop = () => {
-      render();
-
       ctx.putImageData(image, 0, 0);
       requestAnimationFrame(render_loop);
     };
