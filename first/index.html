@@ -52,7 +52,8 @@
   <h1 class="post-title">Testing a post with WASM</h1>
   <span class="post-date">2021-02-24</span>
   <p>Can you see this?
-This is an example from <a href="http://cliffle.com/blog/bare-metal-wasm/">here</a>.</p>
+This is an example from <a href="http://cliffle.com/blog/bare-metal-wasm/">here</a>.
+And, yes I'm using the same theme as Cliffle.</p>
 <script type="module">
 
   import init, { render } from '../paint.js';
@@ -71,18 +72,19 @@ This is an example from <a href="http://cliffle.com/blog/bare-metal-wasm/">here<
     div.appendChild(canvas);
 
     const buffer_address = wasm.BUFFER.value;
-    const image = new ImageData(
-        new Uint8ClampedArray(
-            wasm.memory.buffer,
-            buffer_address,
-            4 * width * height,
-        ),
-        width,
-    );
     const ctx = canvas.getContext("2d");
+
     const render_loop = () => {
       render();
 
+      const image = new ImageData(
+            new Uint8ClampedArray(
+                wasm.memory.buffer,
+                buffer_address,
+                4 * width * height,
+            ),
+            width,
+      );
       ctx.putImageData(image, 0, 0);
       requestAnimationFrame(render_loop);
     };
