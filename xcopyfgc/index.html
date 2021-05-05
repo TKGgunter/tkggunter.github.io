@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <!-- viewport-fit=cover is to support iPhone X rounded corners and notch in landscape-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+
+      <title>Thoth Gunter</title>
+
+      <!-- CSS -->
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;print.css" media="print">
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;poole.css">
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;hyde.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+      
+
+      
+      
+    </head>
+
+    <body class="theme-base-0d ">
+        
+            <div class="sidebar">
+                <div class="container sidebar-sticky">
+                    <div class="sidebar-about">
+                        
+                            <a href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;"><h1>Thoth Gunter</h1></a>
+                            
+                            <p class="lead">programming, machine learning, physics</p>
+                            
+                        
+                    </div>
+
+                    <ul class="sidebar-nav">
+                        
+                        
+                        <li class="sidebar-nav-item"><a href="https:&#x2F;&#x2F;github.com&#x2F;TKGgunter">github</a></li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div class="content container">
+            
+<div class="post" id="post">
+  <h1 class="post-title">Xcopyfgc: an attempt at a general Shadow Ai system.</h1>
+  <span class="post-date">2021-05-05</span>
+  <p>Fighting game ai is bad. 
+Atleast on average.
+In fact fighting game ai often fails at it's purpose: to give players a sense of the dominant strategies of the game or character, in addition introduce players to the current meta.
+Often it does the opposite, by introducing players to strategies only a computer can accomplish.
+Even when a game comes out that pushes the envelope on ai the advancements made are rarely adopted by newer games.</p>
+<blockquote>
+<p>I suspect this isn't the developers' fault. 
+There is a lot to do in game development, and software development in general,
+if any portion of a fighting game would get the short end of the budget I suspect it would be ai.</p>
+</blockquote>
+<p>The Killer Instinct's Shadow Ai is the most recent well known push on ai in fighting games.
+Shadow Ai attempts to mimic player behavior, by recording and playing back player inputs.
+Derek Neal and Bruce Hayles thoroughly explain the system in the GDC talk below.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9yydYjQ1GLg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p>This project, xcopyfgc, is my attempt to replicate the techniques used by Shadow Ai in a general purpose ai program for fighting games.
+This means a tool that can easily be used for any fighting game, in a manner that is as close to plug and play as possible.</p>
+<h2 id="plan-for-creation">Plan for creation</h2>
+<p>Creating something like Shadow Ai is no small task.
+This task is further complicated by the lack of direct access to player/character information, or game state.
+For that reason the project can be broken into two pieces. One aimed at deriving game state, the other the brain of the ai. </p>
+<p>Game state, for fighting games, is information describing everything from distance between two characters, to how often a player jumps. 
+When working within a code base these quantities are much more easily and quickly determined.
+Many hobbyist fighting game ai developers determine game state by grabs values from game memory. 
+This project will not. Instead, game state information will be determined using visuals and audio.
+This choice offers significant advantages and disadvantages.
+Audio and visual information allows for a general method to derive game state. 
+Fighting games use a common visual and auditory language. These common design elements common allow players/spectators to quickly parse unfamiliar games. 
+These elements can also be used to construct algorithms.
+Deriving game state using this technique is difficult, and can often produce results inconsistent with reality.</p>
+<p>I'll discuss the specifics for parsing audio and visual information later, but the basics, as stated before, are leveraged from common fighting game design language.
+For example:</p>
+<ul>
+<li>heath bars at the top of screen.</li>
+<li>color palettes of playable characters being distinct between opposing characters and the background.</li>
+<li>consistent prematch starting positions </li>
+<li>and other.</li>
+</ul>
+<p>Through the use of these elements in addition to incorporating naive machine learning one can determine some of the basics features a game state.</p>
+<p>Outside of game state the brain of the ai needs to be created.
+Here I leverage the work described by Iron Galaxy.
+Xcopyfgc uses recorded user inputs and game state data to determine what the ai should do next.
+I like to think of the system as a train on a set of train tracks. 
+During a match the ai replays the inputs recorded by the player all the while checking the game state. 
+This is the train moving along on the track.
+If the current game state becomes too dissimilar to the recorded game state the ai will look to a different recording that better matches the current state.
+If it finds one it switches the track.
+I'll be writing an in depth post on this some time later as well, but this is the gist.</p>
+<h2 id="so-does-it-work">So... does it work?</h2>
+<p>The preliminary work I have done seem promising. 
+The video shows some very basic sequences I've made replicated the simple demo shown by the killer instinct devs.</p>
+<p>TODO describe how things look and just what the reader is seeing.</p>
+<p>It's been pretty exciting to construct all of this and I plan on see just how far I can push this.</p>
+<p>Thanks for reading.</p>
+
+</div>
+
+        </div>
+
+    </body>
+
+</html>
