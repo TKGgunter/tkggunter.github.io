@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <!-- viewport-fit=cover is to support iPhone X rounded corners and notch in landscape-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+
+      <title>Thoth Gunter</title>
+
+      <!-- CSS -->
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;print.css" media="print">
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;poole.css">
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;hyde.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+      
+
+      
+      
+    </head>
+
+    <body class="theme-base-0d ">
+        
+            <div class="sidebar">
+                <div class="container sidebar-sticky">
+                    <div class="sidebar-about">
+                        
+                            <a href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;"><h1>Thoth Gunter</h1></a>
+                            
+                            <p class="lead">programming, machine learning, physics</p>
+                            
+                        
+                    </div>
+
+                    <ul class="sidebar-nav">
+                        
+                        
+                        <li class="sidebar-nav-item"><a href="https:&#x2F;&#x2F;github.com&#x2F;TKGgunter">github</a></li>
+                        
+                        <li class="sidebar-nav-item"><a href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;projects">projects</a></li>
+                        
+                        <li class="sidebar-nav-item"><a href="https:&#x2F;&#x2F;tkggunter.github.io&#x2F;presentations">presentations</a></li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div class="content container">
+            
+<div class="post" id="post">
+  <h1 class="post-title">Uprooting ROOT Part III</h1>
+  <span class="post-date">2021-04-29</span>
+  <blockquote>
+<i>
+This post highlights work done during my graduate studies. This particular project attempted to replace the data storage and quick histogram generation/viewing features of ROOT. The data format and associated viewer were able to replace ROOT, at least for my use case.  I decided, however, not to use the format for my thesis work.  At that point too much of my tool chain and analysis pipeline required ROOT, and fully switching would have been more costly than it was worth. However, if I were to do another data analysis I would seriously contemplate constructing a custom format. You can find the final product ere, https://github.com/TKGgunter/PhysicsDataSuite.
+</i>
+</blockquote>
+<p>Through the course of this blog series I've discussed data formats and x11.
+This blog post will show off the program/library I made using that information.
+The code can be found <a href="https://github.com/TKGgunter/PhysicsDataSuite">here</a>.</p>
+<h1 id="interfacing-with-the-file-format">Interfacing with the file format</h1>
+<p>As stated in the initial blog the file format was originally made to replace ROOT.
+As such one would need to interface with it like one might ROOT. 
+HEP scientist often work on a event by event model.
+I wanted to keep this interface as simple as possible. 
+Below is an example for initializing our data file.</p>
+<pre><code>    SerialDataFormat sdf;
+    std::map&lt;std::string, float&gt;        float_map;
+    std::map&lt;std::string, int&gt;          int_map;
+    std::map&lt;std::string, std::string&gt;  string_map;
+
+    sdf.vars_float  = &amp;float_map;
+    sdf.vars_int    = &amp;int_map;
+    sdf.vars_str    = &amp;string_map;
+
+    float_map[&quot;grade&quot;]  = 0.0;
+    float_map[&quot;height(cm)&quot;]  = 0.0;
+    int_map[&quot;age&quot;]      = 0;
+    string_map[&quot;name&quot;]  = &quot;&quot;;
+
+    stage_variables( &amp;sdf );
+
+</code></pre>
+<p><code>stage_variables</code> primes the system to know which inputs to look out for.
+When updating the events one might program the following;</p>
+<pre><code>    while (true){
+        float_map[&quot;grade&quot;] = 10.0;
+        float_map[&quot;height(cm)&quot;] = 0.5;
+        int_map[&quot;age&quot;]     = 20;
+
+        update_buffers( &amp;sdf );
+        ///....
+    }
+
+</code></pre>
+<p><code>update_buffers</code> pushes the new values to buffers held by sdf.
+It's a pretty easy set up can can be extended with some additional functions or macros.</p>
+<p>There are some issues with this setup. One being the lack of compile time or runtime checking for spelling mistakes that can occur during when updating the maps. 
+Runtime errors can be added with the use of macros or functions, but compile time errors would be preferable.<br />
+If reflection were available in C/C++ compile time errors could more easily be a thing.</p>
+<h1 id="data-viewer">Data viewer</h1>
+<p>The data view is an extremely stripped down version of what ROOT does. 
+This is because ROOT does too much.
+Often this additional functionality ROOT provides gets in the what of common task.
+The viewer list all features in file, and plots histograms of the distributions, allows for some simple overly functionality, logy plotting.
+A video of the viewer is below.</p>
+<iframe src="../../sdfviewer.mp4" type="video/mp4" width="500px" height="300px">
+</iframe>
+<p>If I were to use this regularly I'd add a few additional features. 
+3 and 2 sigma cut offs, toggle able colors would among them. </p>
+<h1 id="conclusion">Conclusion</h1>
+<p>I had a blast making this a few years back, and it's been fun reviewing the code and writing the blog post. 
+I hope you enjoyed reading it. Thanks for reading.</p>
+
+</div>
+
+        </div>
+
+    </body>
+
+</html>

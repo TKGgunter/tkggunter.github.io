@@ -4,12 +4,30 @@
         <loc>https://tkggunter.github.io/</loc>
     </url>
     <url>
+        <loc>https://tkggunter.github.io/circuitsim/</loc>
+    </url>
+    <url>
+        <loc>https://tkggunter.github.io/circuitsim/circuitsim/</loc>
+        <lastmod>2021-02-24</lastmod>
+    </url>
+    <url>
         <loc>https://tkggunter.github.io/first/</loc>
         <lastmod>2021-02-24</lastmod>
     </url>
     <url>
         <loc>https://tkggunter.github.io/presentations/</loc>
         <lastmod>2021-04-27</lastmod>
+    </url>
+    <url>
+        <loc>https://tkggunter.github.io/projects/</loc>
+    </url>
+    <url>
+        <loc>https://tkggunter.github.io/projects/circuit-sim/</loc>
+        <lastmod>2021-02-24</lastmod>
+    </url>
+    <url>
+        <loc>https://tkggunter.github.io/projects/uproot/</loc>
+        <lastmod>2021-02-24</lastmod>
     </url>
     <url>
         <loc>https://tkggunter.github.io/stats-and-tournaments/</loc>
@@ -32,6 +50,9 @@
     </url>
     <url>
         <loc>https://tkggunter.github.io/xcopyfgc/</loc>
+    </url>
+    <url>
+        <loc>https://tkggunter.github.io/xcopyfgc/xcopyfgc-intro/</loc>
         <lastmod>2021-05-05</lastmod>
     </url>
 </urlset>
